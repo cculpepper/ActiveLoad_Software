@@ -38,12 +38,13 @@
 
 void putchar(const char c)
 {
-  uart0SendChar(c);
+	uart0SendChar(c);
 }
 
-int puts(const char * str)
+int puts(const char *str)
 {
-  while(*str) putchar(*str++);
+	while (*str)
+		putchar(*str++);
 
-  return 0;
+	return 0;
 }

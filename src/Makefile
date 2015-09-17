@@ -38,14 +38,9 @@ CFLAGS += -DGIT_VER="\"${GIT_VER}\""
 UKHASNET_OBJS = main.o \
                 gpio.o \
                 uart.o \
-                gps.o \
-                spi.o \
-                rfm69.o \
-                mrt.o \
                 printf.o \
                 string.o \
                 adc.o \
-                zombie.o \
                 printf-retarget.o \
                 system_LPC8xx.o \
                 gcc_startup_lpc8xx.o

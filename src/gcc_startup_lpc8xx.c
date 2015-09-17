@@ -7,11 +7,9 @@
 // - Note: empty boilerplate ISR routines from cr_startup_lpc8xx.c
 //
 
-
 #if defined (__USE_CMSIS)
 #include "LPC8xx.h"
 #endif
-
 
 //*****************************************************************************
 //
@@ -79,63 +77,61 @@ void PININT7_IRQHandler(void) ALIAS(IntDefaultHandler);
 // This relies on the linker script to place at correct location in memory.
 //
 //*****************************************************************************
-extern void (* const g_pfnVectors[])(void);
+extern void (*const g_pfnVectors[]) (void);
 __attribute__ ((section(".isr_vector")))
-void (* const g_pfnVectors[])(void) = {
+void (*const g_pfnVectors[]) (void) =
+{
 	// Core Level - CM0plus
-    _pStackTop, //&_vStackTop,		// The initial stack pointer
-    ResetISR,				// The reset handler
-    NMI_Handler,			// The NMI handler
-    HardFault_Handler,			// The hard fault handler
-    0,					// Reserved
-    0,					// Reserved
-    0,					// Reserved
-    0,					// Reserved
-    0,					// Reserved
-    0,					// Reserved
-    0,					// Reserved
-    SVC_Handler,			// SVCall handler
-    0,					// Reserved
-    0,					// Reserved
-    PendSV_Handler,			// The PendSV handler
-    SysTick_Handler,			// The SysTick handler
-
-	// Chip Level - LPC8xx
-    SPI0_IRQHandler,                         // SPI0 controller
-    SPI1_IRQHandler,                         // SPI1 controller
-    0,                                       // Reserved
-    UART0_IRQHandler,                        // UART0
-    UART1_IRQHandler,                        // UART1
-    UART2_IRQHandler,                        // UART2
-    0,                                       // Reserved
-    0,                                       // Reserved
-    I2C_IRQHandler,                          // I2C controller
-    SCT_IRQHandler,                          // Smart Counter Timer
-    MRT_IRQHandler,                          // Multi-Rate Timer
-    CMP_IRQHandler,                          // Comparator
-    WDT_IRQHandler,                          // PIO1 (0:11)
-    BOD_IRQHandler,                          // Brown Out Detect
-    0,                                       // Reserved
-    WKT_IRQHandler,                          // Wakeup timer
-    0,                                       // Reserved
-    0,                                       // Reserved
-    0,                                       // Reserved
-    0,                                       // Reserved
-    0,                                       // Reserved
-    0,                                       // Reserved
-    0,                                       // Reserved
-    0,                                       // Reserved
-    PININT0_IRQHandler,                      // PIO INT0
-    PININT1_IRQHandler,                      // PIO INT1
-    PININT2_IRQHandler,                      // PIO INT2
-    PININT3_IRQHandler,                      // PIO INT3
-    PININT4_IRQHandler,                      // PIO INT4
-    PININT5_IRQHandler,                      // PIO INT5
-    PININT6_IRQHandler,                      // PIO INT6
-    PININT7_IRQHandler,                      // PIO INT7
-
-}; /* End of g_pfnVectors */
-
+	_pStackTop,		//&_vStackTop,          // The initial stack pointer
+	    ResetISR,		// The reset handler
+	    NMI_Handler,	// The NMI handler
+	    HardFault_Handler,	// The hard fault handler
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    SVC_Handler,	// SVCall handler
+	    0,			// Reserved
+	    0,			// Reserved
+	    PendSV_Handler,	// The PendSV handler
+	    SysTick_Handler,	// The SysTick handler
+	    // Chip Level - LPC8xx
+	    SPI0_IRQHandler,	// SPI0 controller
+	    SPI1_IRQHandler,	// SPI1 controller
+	    0,			// Reserved
+	    UART0_IRQHandler,	// UART0
+	    UART1_IRQHandler,	// UART1
+	    UART2_IRQHandler,	// UART2
+	    0,			// Reserved
+	    0,			// Reserved
+	    I2C_IRQHandler,	// I2C controller
+	    SCT_IRQHandler,	// Smart Counter Timer
+	    MRT_IRQHandler,	// Multi-Rate Timer
+	    CMP_IRQHandler,	// Comparator
+	    WDT_IRQHandler,	// PIO1 (0:11)
+	    BOD_IRQHandler,	// Brown Out Detect
+	    0,			// Reserved
+	    WKT_IRQHandler,	// Wakeup timer
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    0,			// Reserved
+	    PININT0_IRQHandler,	// PIO INT0
+	    PININT1_IRQHandler,	// PIO INT1
+	    PININT2_IRQHandler,	// PIO INT2
+	    PININT3_IRQHandler,	// PIO INT3
+	    PININT4_IRQHandler,	// PIO INT4
+	    PININT5_IRQHandler,	// PIO INT5
+	    PININT6_IRQHandler,	// PIO INT6
+	    PININT7_IRQHandler,	// PIO INT7
+};				/* End of g_pfnVectors */
 
 //*****************************************************************************
 // Reset entry point for your code.
@@ -149,33 +145,31 @@ extern unsigned int _bss;
 extern unsigned int _ebss;
 
 // Simple gcc-compatible C runtime init
-static inline void
-crt0(void)
+static inline void crt0(void)
 {
-    unsigned int *src, *dest, *dend;
-    // copy the data section
-    src  = (unsigned int *)(&_etext);
-    dest = (unsigned int *)(&_data);
-    dend = (unsigned int *)(&_edata);
-    while (dest < dend)
-	*(dest++) = *(src++);
-    // blank the bss section
-    dest = (unsigned int *)(&_bss);
-    dend = (unsigned int *)(&_ebss);
-    while (dest < dend)
-	*(dest++) = 0;
+	unsigned int *src, *dest, *dend;
+	// copy the data section
+	src = (unsigned int *)(&_etext);
+	dest = (unsigned int *)(&_data);
+	dend = (unsigned int *)(&_edata);
+	while (dest < dend)
+		*(dest++) = *(src++);
+	// blank the bss section
+	dest = (unsigned int *)(&_bss);
+	dend = (unsigned int *)(&_ebss);
+	while (dest < dend)
+		*(dest++) = 0;
 }
 
 __attribute__ ((section(".after_vectors")))
-void
-ResetISR(void)
+void ResetISR(void)
 {
 #ifdef __USE_CMSIS
-    SystemInit();
+	SystemInit();
 #endif
-    crt0();
-    main();
-    while (1) ;	// hang if main returns
+	crt0();
+	main();
+	while (1) ;		// hang if main returns
 }
 
 //*****************************************************************************
@@ -185,37 +179,36 @@ ResetISR(void)
 __attribute__ ((section(".after_vectors")))
 void NMI_Handler(void)
 {
-    while(1)
-    {
-    }
+	while (1) {
+	}
 }
+
 __attribute__ ((section(".after_vectors")))
 void HardFault_Handler(void)
 {
-    while(1)
-    {
-    }
+	while (1) {
+	}
 }
+
 __attribute__ ((section(".after_vectors")))
 void SVCall_Handler(void)
 {
-    while(1)
-    {
-    }
+	while (1) {
+	}
 }
+
 __attribute__ ((section(".after_vectors")))
 void PendSV_Handler(void)
 {
-    while(1)
-    {
-    }
+	while (1) {
+	}
 }
+
 __attribute__ ((section(".after_vectors")))
 void SysTick_Handler(void)
 {
-    while(1)
-    {
-    }
+	while (1) {
+	}
 }
 
 //*****************************************************************************
@@ -227,8 +220,6 @@ void SysTick_Handler(void)
 __attribute__ ((section(".after_vectors")))
 void IntDefaultHandler(void)
 {
-    while(1)
-    {
-    }
+	while (1) {
+	}
 }
-
